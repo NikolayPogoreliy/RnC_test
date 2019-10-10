@@ -29,7 +29,7 @@ class Author(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
-    author = models.ManyToManyField(to=Author, related_name='author_books')
+    author = models.ManyToManyField('Author', related_name='author_books', through='BookAuthor')
     genre = models.ForeignKey('Genre', related_name='genre_books', on_delete=models.SET('unknown'))
     publish_date = models.PositiveSmallIntegerField(
         validators=(MinValueValidator(400), max_value_current_year),
@@ -40,6 +40,11 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class BookAuthor(models.Model):
+    author = models.ForeignKey('Author', related_name='authors_books', on_delete=models.CASCADE)
+    book = models.ForeignKey('Book', related_name='books_authors', on_delete=models.CASCADE)
 
 
 class Genre(models.Model):
