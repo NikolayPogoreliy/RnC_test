@@ -26,11 +26,14 @@ class Author(models.Model):
     def __str__(self):
         return f'{self.last_name}, {self.first_name}'
 
+    class Meta:
+        unique_together = ('first_name', 'last_name', 'birth_date')
+
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.ManyToManyField('Author', related_name='author_books', through='BookAuthor')
-    genre = models.ForeignKey('Genre', related_name='genre_books', on_delete=models.SET('unknown'))
+    genre = models.ForeignKey('Genre', related_name='genre_books', on_delete=models.SET(None), null=True)
     publish_date = models.PositiveSmallIntegerField(
         validators=(MinValueValidator(400), max_value_current_year),
         default=current_year(),

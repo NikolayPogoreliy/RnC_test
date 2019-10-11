@@ -1,4 +1,6 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import AdminRenderer
 from apps.libra.models import Author, Book, Genre
 from apps.libra.serialisers import AuthorSerializer, GenreSerializer, BookSerializer
 
@@ -6,6 +8,8 @@ from apps.libra.serialisers import AuthorSerializer, GenreSerializer, BookSerial
 class AuthorViewset(viewsets.ModelViewSet):
     serializer_class = AuthorSerializer
     queryset = Author.objects.all()
+    renderer_classes = (AdminRenderer,)
+    permissions = (IsAuthenticated,)
 
     def retrieve(self, request, *args, **kwargs):
         if kwargs.get('books'):
@@ -21,8 +25,13 @@ class AuthorViewset(viewsets.ModelViewSet):
 class GenreViewset(viewsets.ModelViewSet):
     serializer_class = GenreSerializer
     queryset = Genre.objects.all()
+    permissions = (IsAuthenticated,)
 
 
 class BooksViewset(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     queryset = Book.objects.all()
+    renderer_classes = (AdminRenderer,)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('title', 'author__first_name')
+    permissions = (IsAuthenticated,)

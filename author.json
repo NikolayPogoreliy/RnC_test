@@ -1,0 +1,20 @@
+[
+  {
+    "model": "libra.author",
+    "fields": {
+      "first_name": "John Ronald Rouel",
+      "last_name": "Tolkien",
+      "birth_date": "1897-10-13",
+      "sex": false
+    }
+  },
+  {
+    "model": "libra.author",
+    "fields": {
+      "first_name": "Joahne Keith",
+      "last_name": "Rowling",
+      "birth_date": "1978-12-05",
+      "sex": true
+    }
+  }
+]
