@@ -2,7 +2,7 @@ from rest_framework import viewsets, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import AdminRenderer
 from apps.libra.models import Author, Book, Genre
-from apps.libra.serialisers import AuthorSerializer, GenreSerializer, BookSerializer
+from apps.libra.serialisers import AuthorSerializer, BookSerializer, GenreSerializer
 
 
 class AuthorViewset(viewsets.ModelViewSet):
@@ -33,5 +33,5 @@ class BooksViewset(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     renderer_classes = (AdminRenderer,)
     filter_backends = (filters.SearchFilter,)
-    search_fields = ('title', 'author__first_name')
+    search_fields = ('title', 'author__last_name', 'publish_date')
     permissions = (IsAuthenticated,)
